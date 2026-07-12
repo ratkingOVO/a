@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fbf7ed" />
+    <title>写给你的喜欢</title>
+    <meta name="description" content="一封认真准备的告白信" />
+    <link rel="icon" href="./favicon.svg" />
+    <style>
+      :root {
+        font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+        color: #3e2e25;
+        background: #d8d4ca;
+        font-synthesis: none;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100%;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button {
+        font: inherit;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .app-stage {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        background: #d8d4ca;
+      }
+
+      .mobile-prototype {
+        width: min(100vw, 390px);
+        height: min(100dvh, 844px);
+        margin-inline: auto;
+        overflow: hidden;
+        position: relative;
+        background: #fbf7ed;
+        box-shadow: 0 24px 80px rgba(65, 50, 40, .22);
+        color: #3e2e25;
+      }
+
+      .paper-scroll {
+        height: 844px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+      }
+
+      .paper-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      .hero-section {
+        min-height: 844px;
+        padding: 42px 30px 30px;
+        position: relative;
+        background: #fbf7ed;
+      }
+
+      .chapter {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #6480bf;
+        font-size: 12px;
+        letter-spacing: .08em;
+      }
+
+      .chapter span {
+        font-weight: 600;
+      }
+
+      .chapter i {
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: #d6c8aa;
+      }
+
+      .star {
+        position: absolute;
+        color: #b58a55;
+        line-height: 1;
+      }
+
+      .star-one {
+        right: 30px;
+        top: 29px;
+        font-size: 20px;
+      }
+
+      .star-two {
+        right: 62px;
+        top: 87px;
+        color: #7287c2;
+        font-size: 13px;
+      }
+
+      h1 {
+        margin: 51px 0 30px;
+        font-size: 31px;
+        line-height: 1.46;
+        letter-spacing: 0;
+        font-weight: 620;
+      }
+
+      h1 span {
+        color: #ef6753;
+        position: relative;
+      }
+
+      .memory-block {
+        display: grid;
+        grid-template-columns: 94px minmax(0, 1fr);
+        gap: 9px;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+
+      .hand-note {
+        font-family: "STKaiti", "KaiTi", serif;
+        font-size: 13px;
+        line-height: 2;
+        transform: rotate(-2deg);
+        margin: 0;
+      }
+
+      .polaroid {
+        margin: 0;
+        width: 205px;
+        justify-self: start;
+        position: relative;
+        background: #fffdf8;
+        padding: 9px 9px 13px;
+        transform: rotate(4deg);
+        box-shadow: 0 9px 20px rgba(75, 57, 45, .16);
+      }
+
+      .polaroid img {
+        display: block;
+        width: 100%;
+        height: 144px;
+        object-fit: cover;
+        object-position: 50% 42%;
+      }
+
+      .polaroid figcaption {
+        padding-top: 9px;
+        font-family: "STKaiti", "KaiTi", serif;
+        font-size: 11px;
+      }
+
+      .polaroid time {
+        float: right;
+        color: #a79d92;
+        font-family: inherit;
+      }
+
+      .tape {
+        position: absolute;
+        width: 68px;
+        height: 16px;
+        background: #dcc18c;
+        opacity: .76;
+        left: 50%;
+        top: -7px;
+        transform: translateX(-50%) rotate(-2deg);
+      }
+
+      .voice-section h2 {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0 0 10px;
+        padding-left: 12px;
+        border-left: 3px solid #ef6753;
+      }
+
+      .voice-player {
+        width: 100%;
+        height: 72px;
+        border: 1px solid #eee5d9;
+        border-radius: 14px;
+        background: #fffaf2;
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr) 52px;
+        grid-template-rows: 1fr 16px;
+        align-items: center;
+        gap: 0 8px;
+        padding: 9px 10px;
+        color: #65564d;
+        box-shadow: 0 5px 14px rgba(72, 52, 38, .1);
+        cursor: pointer;
+        text-align: left;
+        overflow: hidden;
+      }
+
+      .play-button {
+        grid-row: 1 / 3;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #ef6753;
+        color: white;
+        box-shadow: 0 4px 9px rgba(239, 103, 83, .3);
+      }
+
+      .play-button svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .wave {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        height: 34px;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .wave i {
+        flex: 1;
+        max-width: 3px;
+        border-radius: 3px;
+        background: #dbc7bd;
+        transition: background .2s ease;
+      }
+
+      .wave i.active {
+        background: #ef6753;
+      }
+
+      .duration {
+        font-size: 9px;
+        text-align: right;
+        color: #998c84;
+        white-space: nowrap;
+      }
+
+      .voice-player small {
+        grid-column: 2 / 4;
+        color: #9b8e85;
+        font-size: 10px;
+      }
+
+      .accept-button {
+        margin-top: 19px;
+        width: 100%;
+        height: 54px;
+        border: 0;
+        border-radius: 28px;
+        color: #fff;
+        background: #ef6753;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        font-size: 16px;
+        letter-spacing: .06em;
+        box-shadow: 0 7px 0 #ca4e3d, 0 14px 22px rgba(211, 76, 58, .2);
+        cursor: pointer;
+        transition: transform .15s ease, box-shadow .15s ease;
+      }
+
+      .accept-button:active {
+        transform: translateY(5px);
+        box-shadow: 0 3px 0 #ca4e3d, 0 8px 14px rgba(211, 76, 58, .18);
+      }
+
+      .accept-button svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .scroll-cue {
+        margin: 25px auto 0;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: #7287c2;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        cursor: pointer;
+      }
+
+      .scroll-cue svg:last-child {
+        display: block;
+        width: 15px;
+      }
+
+      .story-section {
+        min-height: 844px;
+        padding: 70px 30px 56px;
+        background: #eef0fa;
+      }
+
+      .eyebrow {
+        margin: 0 0 16px;
+        color: #6f83bb;
+        font-size: 12px;
+        letter-spacing: .09em;
+      }
+
+      .story-section h2 {
+        font-size: 28px;
+        line-height: 1.5;
+        margin: 0 0 50px;
+      }
+
+      .timeline {
+        border-left: 1px solid #bdc7e1;
+        padding-left: 25px;
+      }
+
+      .timeline article {
+        position: relative;
+        margin-bottom: 45px;
+      }
+
+      .timeline article::before {
+        content: "";
+        position: absolute;
+        left: -30px;
+        top: 4px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #ef6753;
+        box-shadow: 0 0 0 5px #eef0fa;
+      }
+
+      .timeline time {
+        color: #ef6753;
+        font-weight: 650;
+        font-size: 14px;
+      }
+
+      .timeline p {
+        margin: 10px 0 0;
+        color: #5d6170;
+        line-height: 1.8;
+        font-size: 14px;
+      }
+
+      .accept-button.compact {
+        margin-top: 56px;
+        height: 58px;
+        justify-content: center;
+        gap: 18px;
+        font-size: 16px;
+      }
+
+      .response {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: none;
+        place-items: center;
+        padding: 28px;
+        background: rgba(49, 38, 32, .68);
+        backdrop-filter: blur(7px);
+      }
+
+      .response.is-open {
+        display: grid;
+      }
+
+      .response-card {
+        width: 100%;
+        background: #fffaf0;
+        border-radius: 26px;
+        padding: 38px 28px 30px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(33, 23, 18, .3);
+        animation: rise .38s ease both;
+      }
+
+      .response-icon {
+        width: 54px;
+        height: 54px;
+        color: #ef6753;
+        margin-bottom: 18px;
+      }
+
+      .response-card h2 {
+        font-size: 25px;
+        line-height: 1.45;
+        margin: 0 0 13px;
+      }
+
+      .response-card > p:not(.eyebrow) {
+        color: #776960;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      .response-card button {
+        margin-top: 18px;
+        border: 0;
+        border-bottom: 1px solid #ef6753;
+        padding: 5px;
+        background: none;
+        color: #ef6753;
+        cursor: pointer;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(24px) scale(.97);
+        }
+
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @media (max-height: 843px) {
+        .app-stage {
+          align-items: start;
+        }
+
+        .mobile-prototype {
+          height: 100dvh;
+        }
+
+        .paper-scroll {
+          height: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app-stage">
+      <section class="mobile-prototype" aria-label="写给你的告白">
+        <div class="paper-scroll" id="paperScroll">
+          <section class="hero-section">
+            <header class="chapter"><span>第 001 章</span><i></i>关于喜欢你</header>
+            <span class="star star-one" aria-hidden="true">✦</span>
+            <span class="star star-two" aria-hidden="true">✧</span>
+
+            <h1>宇宙很大，<br />我的心<span>只偏向你</span></h1>
+
+            <div class="memory-block">
+              <p class="hand-note">遇见你的那天起，<br />所有的轨迹<br />都有了意义。</p>
+              <figure class="polaroid">
+                <span class="tape"></span>
+                <img src="./couple-photo.png" alt="一对年轻情侣在阳光下相视微笑" />
+                <figcaption>阳光很暖，见到你，就很甜。 <time>05.20</time></figcaption>
+              </figure>
+            </div>
+
+            <section class="voice-section" aria-labelledby="voice-title">
+              <h2 id="voice-title">听听我的心里话</h2>
+              <button class="voice-player" id="voicePlayer" aria-label="播放语音告白">
+                <span class="play-button" id="playIcon"></span>
+                <span class="wave" id="wave" aria-hidden="true"></span>
+                <span class="duration" id="duration">00:36</span>
+                <small>轻触，倾听我的心声</small>
+              </button>
+            </section>
+
+            <button class="accept-button" data-open-response>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M3.5 7.5h17v11h-17z"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="m4 8 8 6 8-6"/></svg>
+              <span>收下我的喜欢</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg>
+            </button>
+
+            <button class="scroll-cue" id="scrollCue">
+              <span aria-hidden="true">✧</span> 向下滑动，继续看我们的故事
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </section>
+
+          <section class="story-section" id="storySection">
+            <p class="eyebrow">第 002 章 · 后来的我们</p>
+            <h2>喜欢不是一瞬间，<br />是每一个有你的日常。</h2>
+            <div class="timeline">
+              <article><time>初遇</time><p>那天的风很轻，而我记住了你的笑。</p></article>
+              <article><time>心动</time><p>开始期待每一次消息，也期待每一次见面。</p></article>
+              <article><time>现在</time><p>想认真问你：以后，也让我陪在你身边好吗？</p></article>
+            </div>
+            <button class="accept-button compact" data-open-response>
+              告诉你我的答案
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg>
+            </button>
+          </section>
+        </div>
+
+        <div class="response" id="response" role="dialog" aria-modal="true" aria-labelledby="response-title">
+          <div class="response-card">
+            <svg class="response-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.1 14.4-4-4 1.4-1.4 2.6 2.6 5.8-5.8 1.4 1.4-7.2 7.2Z"/></svg>
+            <p class="eyebrow">心意已被好好收下</p>
+            <h2 id="response-title">那我们，就从今天开始吧。</h2>
+            <p>这一刻会成为我们故事里，最温柔的新章节。</p>
+            <button id="closeResponse">再看一遍</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const bars = [18, 28, 15, 35, 22, 42, 29, 20, 38, 52, 30, 18, 40, 27, 47, 34, 22, 39, 49, 26, 18, 32, 44, 25, 36, 20, 31, 17];
+      const wave = document.querySelector("#wave");
+      const playIcon = document.querySelector("#playIcon");
+      const duration = document.querySelector("#duration");
+      const voicePlayer = document.querySelector("#voicePlayer");
+      const response = document.querySelector("#response");
+      let playing = false;
+      let progress = 0;
+      let timer = null;
+
+      function playSvg() {
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13l10-6.5-10-6.5Z"/></svg>';
+      }
+
+      function pauseSvg() {
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z"/></svg>';
+      }
+
+      function renderWave() {
+        wave.innerHTML = bars.map((height, index) => {
+          const active = index / bars.length * 100 <= progress ? "active" : "";
+          return `<i class="${active}" style="height:${height}px"></i>`;
+        }).join("");
+      }
+
+      function setPlaying(next) {
+        playing = next;
+        playIcon.innerHTML = playing ? pauseSvg() : playSvg();
+        duration.textContent = playing ? "正在播放" : "00:36";
+        voicePlayer.setAttribute("aria-label", playing ? "暂停语音告白" : "播放语音告白");
+
+        if (timer) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+
+        if (!playing) return;
+
+        timer = window.setInterval(() => {
+          if (progress >= 100) {
+            progress = 0;
+            setPlaying(false);
+          } else {
+            progress += 1.4;
+            renderWave();
+          }
+        }, 500);
+      }
+
+      voicePlayer.addEventListener("click", () => setPlaying(!playing));
+      document.querySelector("#scrollCue").addEventListener("click", () => {
+        document.querySelector("#storySection").scrollIntoView({ behavior: "smooth" });
+      });
+      document.querySelectorAll("[data-open-response]").forEach((button) => {
+        button.addEventListener("click", () => response.classList.add("is-open"));
+      });
+      document.querySelector("#closeResponse").addEventListener("click", () => response.classList.remove("is-open"));
+
+      playIcon.innerHTML = playSvg();
+      renderWave();
+    </script>
+  </body>
+</html>
